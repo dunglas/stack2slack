@@ -12,7 +12,7 @@ import (
 	"github.com/nlopes/slack"
 )
 
-const waitBetweenChecks  = time.Minute * 5
+const waitBetweenChecks = time.Minute * 5
 
 func main() {
 	slackApiToken := os.Getenv("SLACK_API_TOKEN")
@@ -37,7 +37,7 @@ func main() {
 		stackSite = "stackoverflow"
 	}
 
-	runSlackClient(slackApiToken, stackSite, tagToChannelName, 	os.Getenv("DEBUG") == "1")
+	runSlackClient(slackApiToken, stackSite, tagToChannelName, os.Getenv("DEBUG") == "1")
 }
 
 func runSlackClient(slackApiToken string, stackSite string, tagToChannelName map[string]string, debug bool) {
@@ -59,7 +59,7 @@ func runSlackClient(slackApiToken string, stackSite string, tagToChannelName map
 
 			tagToChannelId := make(map[string]string, len(tagToChannelName))
 
-			OUTER:
+		OUTER:
 			for tagName, channelName := range tagToChannelName {
 				for _, channel := range ev.Info.Channels {
 					if channelName == channel.Name {
@@ -93,7 +93,7 @@ func watchStack(rtm *slack.RTM, tagToChannelId map[string]string, stackSite stri
 		if lastCreationDate > 0 {
 			url = fmt.Sprintf("%s&min=%d", baseUrl, lastCreationDate)
 		} else {
-			url= baseUrl
+			url = baseUrl
 		}
 
 		resp, err := http.Get(url)
@@ -109,15 +109,15 @@ func watchStack(rtm *slack.RTM, tagToChannelId map[string]string, stackSite stri
 		}
 
 		type Item struct {
-			Tags         []string `json:tags`
-			Owner        Owner    `json:owner`
+			Tags         []string `json:"tags"`
+			Owner        Owner    `json:"owner"`
 			CreationDate int      `json:"creation_date"`
-			Title        string   `json:title`
-			Link         string   `json:link`
+			Title        string   `json:"title"`
+			Link         string   `json:"link"`
 		}
 
 		type Response struct {
-			Items []Item `json:items`
+			Items []Item `json:"items"`
 		}
 
 		var stackResponse = new(Response)

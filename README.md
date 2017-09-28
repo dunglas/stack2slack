@@ -7,6 +7,7 @@ It has been initially created to post all questions related to the [API Platform
 in a dedicated channel of the Slack of [Les-Tilleuls.coop](https://les-tilleuls.coop) (the company behind the framework).
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/dunglas/stack2slack)](https://goreportcard.com/report/github.com/dunglas/stack2slack)
+[![Build Status](https://travis-ci.org/dunglas/stack2slack.svg?branch=master)](https://travis-ci.org/dunglas/stack2slack)
 
 ## Installing
 
