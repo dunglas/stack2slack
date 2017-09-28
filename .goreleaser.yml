@@ -1,0 +1,8 @@
+builds:
+  - main: main.go
+    binary: stack2slack
+
+dockers:
+  - image: dunglas/stack2slack
+    latest: true
+    binary: stack2slack

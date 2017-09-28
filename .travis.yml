@@ -2,7 +2,17 @@ language: go
 go:
   - '1.9'
 
+services:
+  - docker
+
+install:
+  - go get
+
 script:
   - go vet
   - gofmt -e -d *.go
   - go build
+
+after_success:
+  - test -n "$TRAVIS_TAG" && docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
