@@ -53,10 +53,6 @@ func runSlackClient(slackApiToken string, stackSite string, tagToChannelName map
 	for msg := range rtm.IncomingEvents {
 		switch ev := msg.Data.(type) {
 		case *slack.ConnectedEvent:
-			if ev.ConnectionCount != 1 {
-				log.Fatalln("This bot is already connected")
-			}
-
 			tagToChannelId := make(map[string]string, len(tagToChannelName))
 
 		OUTER:
@@ -93,7 +89,8 @@ func watchStack(rtm *slack.RTM, tagToChannelId map[string]string, stackSite stri
 		if lastCreationDate > 0 {
 			url = fmt.Sprintf("%s&min=%d", baseUrl, lastCreationDate)
 		} else {
-			url = baseUrl
+			// During the first iteration, the last question is posted to be sure that the bot works
+			url = fmt.Sprintf("%s&pagesize=1", baseUrl)
 		}
 
 		resp, err := http.Get(url)
@@ -112,7 +109,6 @@ func watchStack(rtm *slack.RTM, tagToChannelId map[string]string, stackSite stri
 			Tags         []string `json:"tags"`
 			Owner        Owner    `json:"owner"`
 			CreationDate int      `json:"creation_date"`
-			Title        string   `json:"title"`
 			Link         string   `json:"link"`
 		}
 
@@ -134,7 +130,7 @@ func watchStack(rtm *slack.RTM, tagToChannelId map[string]string, stackSite stri
 				if channelId, ok := tagToChannelId[tag]; ok {
 					fmt.Printf("%v", channelId)
 
-					rtm.SendMessage(rtm.NewOutgoingMessage(fmt.Sprintf("%s (%s) by %s. Tags: %s\n", item.Title, item.Link, item.Owner.DisplayName, strings.Join(item.Tags, ", ")), channelId))
+					rtm.SendMessage(rtm.NewOutgoingMessage(fmt.Sprintf("Question by %s, tags: %s %s\n", item.Owner.DisplayName, strings.Join(item.Tags, ", "), item.Link), channelId))
 				}
 			}
 
