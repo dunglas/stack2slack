@@ -12,11 +12,12 @@ in a dedicated channel of the Slack of [Les-Tilleuls.coop](https://les-tilleuls.
 
 ## Installing
 
-The easiest way to get started is to use the official [Docker](https://www.docker.com/) image:
-
 1. [Register a new Slack bot](https://my.slack.com/services/new/bot) and grab the generated API token
-2. Start the daemon: `docker run -e DEBUG=1 -e SLACK_API_TOKEN=<your-API-token> -e TAG_TO_CHANNEL='{"stackoverflow-tag": "slack-channel"}' dunglas/stack2slack`
-6. Finally, invite the bot in channels it will post: `/invite @bot-name`
+2. [Download](https://github.com/dunglas/stack2slack/releases) and extract the binary corresponding to your platform
+3. Start the daemon: `DEBUG=1 SLACK_API_TOKEN=<your-API-token> TAG_TO_CHANNEL='{"stackoverflow-tag": "slack-channel"}' ./stack2slack`
+4. Finally, invite the bot in channels it will post: `/invite @bot-name`
+
+Alternatively, you can use the official [Docker](https://www.docker.com/) image instead of downloading a binary: `docker run -e DEBUG=1 -e SLACK_API_TOKEN=<your-API-token> -e TAG_TO_CHANNEL='{"stackoverflow-tag": "slack-channel"}' dunglas/stack2slack`
 
 ## Building from Sources
 
