@@ -19,6 +19,17 @@ in a dedicated channel of the Slack of [Les-Tilleuls.coop](https://les-tilleuls.
 
 Alternatively, you can use the official [Docker](https://www.docker.com/) image instead of downloading a binary: `docker run -e DEBUG=1 -e SLACK_API_TOKEN=<your-API-token> -e TAG_TO_CHANNEL='{"stackoverflow-tag": "slack-channel"}' dunglas/stack2slack`
 
+If you use a [Kubernetes](https://kubernetes.io/) (e.g. a Google Container Engine cluster), you can install Stack 2 Slack
+very easily with the [Helm](https://helm.sh/) package manager:
+
+1. Clone this repository: `git clone git@github.com:dunglas/stack2slack.git`
+2. Install the provided chart:
+
+    helm install \
+        --set slackApiToken=<slackApiToken> \
+        --set tagToChannel.stackExchangeTag=slackChannel \
+        ./chart/stack2slack
+
 ## Building from Sources
 
 This bot is written in [Go](https://golang.org/) (golang), you need a proper install of it to compile the sources.
