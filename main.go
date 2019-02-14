@@ -41,11 +41,13 @@ func main() {
 }
 
 func runSlackClient(slackApiToken string, stackSite string, tagToChannelName map[string]string, debug bool) {
-	api := slack.New(slackApiToken)
 	logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
-
-	slack.SetLogger(logger)
-	api.SetDebug(debug)
+	
+	api := slack.New(
+		slackApiToken,
+		slack.OptionLog(logger),
+		slack.OptionDebug(debug),
+	)
 
 	rtm := api.NewRTM()
 	go rtm.ManageConnection()
